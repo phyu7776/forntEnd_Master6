@@ -6,15 +6,31 @@ export const useAuth = () => useContext(AuthContext);
 
 export default function AuthProvider({children}) {
 
-    const [number, setNumber] = useState(0);
-
-
     const [isAuthenticated, setAuthenticated] = useState(false);
 
-    // setInterval(() => setNumber(number+1) ,10000)
+    const [authName, setAuthName] = useState();
+
+    function login(username, password) {
+        if ((username === 'test' || username === 'test2') && password === 'dummy') {
+            console.log('Success');
+            setAuthenticated(true);
+            setAuthName(username);
+            return true;
+            
+        } else {
+            console.log('Failed');
+            setAuthenticated(false);
+            return false;
+        }
+    }
+
+    function logout() {
+        setAuthName(null);
+        setAuthenticated(false);
+    }
 
     return (
-        <AuthContext.Provider value = {{number, isAuthenticated, setAuthenticated}}>
+        <AuthContext.Provider value = {{isAuthenticated, setAuthenticated, login, logout, authName}}>
             {children}
         </AuthContext.Provider>
     )
